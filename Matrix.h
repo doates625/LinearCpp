@@ -37,22 +37,6 @@ public:
 	}
 
 	/**
-	 * @brief Returns row count
-	 */
-	uint8_t get_m() const
-	{
-		return m;
-	}
-
-	/**
-	 * @brief Returns col count
-	 */
-	uint8_t get_n() const
-	{
-		return n;
-	}
-
-	/**
 	 * @brief Reference to element
 	 * @param i Row index [0...m-1]
 	 * @param j Col index [0...n-1]
