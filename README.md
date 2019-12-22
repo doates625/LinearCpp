@@ -3,9 +3,9 @@ Light-weight C++ linear algebra library for embedded systems
 Written by Dan Oates (WPI Class of 2020)
 
 ### Description
-I developed this library due to the lack of easily-installable and well-documented linear algebra libraries targeted for embedded systems. It is loosely based on [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) but heavily simplified for embedded systems, using 8-bit indices to save memory and 32-bit floating-point elements to reduce template complexity. The library uses only static memory and achieves variable-size matrices and vectors via dimension templates, which also enforce dimension rules for functions and operators at compilation. Efficient lazy evaluation of nesteded expressions is implemented via a polymorphic expression class structure.
+I developed this library due to the lack of easily-installable and well-documented linear algebra libraries targeted for embedded systems. It is loosely based on [Eigen](http://eigen.tuxfamily.org/index.php?title=Main_Page) but heavily simplified for embedded systems, using 8-bit indices to save memory and 32-bit floating-point elements to reduce template complexity. The library uses only static memory and achieves variable-size matrices and vectors via dimension templates, which also enforce dimension rules for functions and operators at compilation. Efficient evaluation of nesteded expressions is implemented via polymorphic expression classes.
 
-This library currently only supports simple matrix-vector arithmetic such as addition, multiplication, and dot products. I plan to eventually add more advanced features including system solvers, inverse and pseudo-inverse, QR and LU decompositions, Gaussian elimination, determinant, rank, and Gram-Schmidt orthogonalization. All new features are unit tested before release on master.
+This library currently only supports simple matrix-vector arithmetic such as addition, multiplication, and dot products. I plan to eventually add more advanced features including system solvers, inverse and pseudo-inverse, QR and LU decompositions, Gaussian elimination, determinant, rank, and Gram-Schmidt orthogonalization. All new features are unit tested.
 
 ### API Summary
 #### Matrices and Vectors
