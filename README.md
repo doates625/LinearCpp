@@ -45,3 +45,15 @@ float trace(Matrix<n, n>)	// Trace
 float norm(Matrix<n, n>)	// Euclydian norm
 float dot(Vector<n>, Vector<n>)	// Dot product
 ```
+
+#### Circular Self-Assignment
+Due to the use of expressions to avoid copying, assignment operations with self-reference may lead to undefined behavior. For example, the following multiplication will yield an incorrect result:
+```
+Matrix<3, 3> mat;
+// Assign matrix entries...
+mat = mat * mat;
+```
+This problem can be easily solved by forcing hard evaluation of the expression before assignment:
+```
+mat = Matrix<3, 3>(mat * mat);
+```
