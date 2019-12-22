@@ -14,10 +14,28 @@ Vector<n> vec;		// Construct n x 1 zero vector
 ```
 Matrix and vector elements can be accessed and modified via the () operator:
 ```
-s1 = mat(i, j);	// Get matrix entry at row i col j (i = 0...m-1, j = 0...n-1)
-mat(i, j) = s2;	// Assign matrix entry at (i, j)
-s3 = vec(i);	// Get vector entry at index i (i = 0...n-1)
-vec(i) = s4;	// Assign vector entry at (i)
+s1 = mat(i, j);		// Get matrix entry at row i col j (i = 0...m-1, j = 0...n-1)
+mat(i, j) = s2;		// Assign matrix entry at (i, j)
+s3 = vec(i);		// Get vector entry at index i (i = 0...n-1)
+vec(i) = s4;		// Assign vector entry at (i)
 ```
-#### Operations
-TODO
+#### Operators and Functions
+The full list of library functions and operators are described here. All matrix operations also apply to vectors when dimensions are appropriate.
+```
+Matrix<m, n> + Matrix<m, n>	// Addition
+Matrix<m, n> - Matrix<m, n>	// Subtraction
+Matrix<m, p> * Matrix<p, n>	// Matrix multiplication
+Matrix<m, n> * Vector<n>	// Vector multiplication
+scalar * Matrix<m, n>;		// Scalar multiplication
+-Matrix<m, n>			// Negation
+
+Matrix<n, m> trn(Matrix<m, n>)				// Transposition
+Vector<3> crs(Vector<3>, Vector<3>)			// Cross-product
+Matrix<m, n1+n2> hcat(Matrix<m, n1>, Matrix<m, n2>)	// Horizontal concatenation
+Matrix<m1+m2, n> vcat(Matrix<m1, n>, Matrix<m2, n>)	// Vectical concatenation
+Matrix<n, n> eye<n>()					// Identity
+
+float trace(Matrix<n, n>)	// Trace
+float norm(Matrix<n, n>)	// Euclydian norm
+float dot(Vector<n>, Vector<n>)	// Dot product
+```
