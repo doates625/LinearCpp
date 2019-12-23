@@ -66,6 +66,14 @@ public:
 		return data[i];
 	}
 
+	/**
+	 * @brief Returns true to indicate evaluation
+	 */
+	bool evaluated() const override
+	{
+		return true;
+	}
+
 protected:
 
 	// Vector Elements
