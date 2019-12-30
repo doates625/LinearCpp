@@ -73,6 +73,14 @@ public:
 	}
 
 	/**
+	 * @brief Casts 1 x 1 matrix expression to float
+	 */
+	operator float()
+	{
+		return get(0, 0);
+	}
+
+	/**
 	 * @brief Returns element of expression
 	 * @param i Row index [0...m-1]
 	 * @param j Col index [0...n-1]
