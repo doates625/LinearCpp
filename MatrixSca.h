@@ -50,3 +50,12 @@ MatrixSca<m, n> operator*(float scalar, const MatrixExp<m, n>& mat)
 {
 	return MatrixSca<m, n>(scalar, mat);
 }
+
+/**
+ * @brief Matrix-scalar division operator
+ */
+template<uint8_t m, uint8_t n>
+MatrixSca<m, n> operator/(const MatrixExp<m, n>& mat, float scalar)
+{
+	return MatrixSca<m, n>(1.0f / scalar, mat);
+}
