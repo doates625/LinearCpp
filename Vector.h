@@ -34,6 +34,14 @@ public:
 	}
 
 	/**
+	 * @brief Constructs 1D vector from scalar
+	 */
+	Vector(float scalar) : Vector<1>()
+	{
+		(*this)(0) = scalar;
+	}
+
+	/**
 	 * @brief Reference to element
 	 * @param i Vector index [0...n-1]
 	 */
