@@ -37,6 +37,14 @@ public:
 	}
 
 	/**
+	 * @brief Constructs 1 x 1 matrix from scalar
+	 */
+	Matrix(float scalar) : Matrix<1, 1>()
+	{
+		(*this)(0, 0) = scalar;
+	}
+
+	/**
 	 * @brief Reference to element
 	 * @param i Row index [0...m-1]
 	 * @param j Col index [0...n-1]
