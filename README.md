@@ -31,6 +31,7 @@ Matrix<m, n> - Matrix<m, n>	// Subtraction
 Matrix<m, p> * Matrix<p, n>	// Matrix multiplication
 Matrix<m, n> * Vector<n>	// Vector multiplication
 scalar * Matrix<m, n>		// Scalar multiplication
+Matrix<m, n> / scalar		// Scalar division
 -Matrix<m, n>			// Negation
 
 // Matrix-Vector Functions
@@ -44,6 +45,11 @@ Matrix<n, n> eye<n>()					// Identity
 float trace(Matrix<n, n>)	// Trace
 float norm(Matrix<n, n>)	// Euclydian norm
 float dot(Vector<n>, Vector<n>)	// Dot product
+
+// Typecast Operators
+operator float(Matrix<1, 1>)	// Cast matrix to scalar
+Matrix<1, 1>(float)		// Cast scalar to matrix
+Vector<1>(float)		// Cast scalar to vector
 ```
 
 #### Circular Self-Assignment
