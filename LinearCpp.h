@@ -27,3 +27,6 @@
 #include "Vector.h"
 #include "VectorMul.h"
 #include "VectorCrs.h"
+
+// Algorithm includes
+#include "chol.h"

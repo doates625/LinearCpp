@@ -50,6 +50,9 @@ float dot(Vector<n>, Vector<n>)	// Dot product
 operator float(Matrix<1, 1>)	// Cast matrix to scalar
 Matrix<1, 1>(float)		// Cast scalar to matrix
 Vector<1>(float)		// Cast scalar to vector
+
+// Matrix Decompositions
+chol(Matrix<n, n>)	// Cholesky decomposition
 ```
 
 #### Circular Self-Assignment
