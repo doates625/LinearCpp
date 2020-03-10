@@ -10,19 +10,19 @@
 
 /**
  * @brief In-place lower-triangular L*X = B
- * @param L Lower triangular matrix
+ * @param L Lower-triangular matrix
  * @param B Solution matrix B -> X
  */
 template<uint8_t m, uint8_t n>
 void divl_lt(const MatrixExp<m, m>& L, Matrix<m, n>& B)
 {
-	// For each row
+	// For each row of B
 	for (uint8_t i = 0; i < m; i++)
 	{
 		// Diagonal inverse
 		const float Lii_inv = 1.0f / L.get(i, i);
 
-		// For each column
+		// For each column of B
 		for (uint8_t j = 0; j < n; j++)
 		{
 			for (uint8_t k = 0; k < i; k++)
@@ -35,21 +35,36 @@ void divl_lt(const MatrixExp<m, m>& L, Matrix<m, n>& B)
 }
 
 /**
+ * @brief In-place lower-triangular X*L = B
+ * @param L Lower-triangular matrix
+ * @param B Solution matrix B -> X
+ * 
+ * TODO optimize to prevent copies
+ */
+template<uint8_t m, uint8_t n>
+void divr_lt(const MatrixExp<n, n>& L, Matrix<m, n>& B)
+{
+	Matrix<n, m> trn_B = trn(B);
+	divl_ut(trn(L), trn_B);
+	B = trn(trn_B);
+}
+
+/**
  * @brief In-place upper-triangular U*X = B
- * @param U Upper triangular matrix
+ * @param U Upper-triangular matrix
  * @param B Solution matrix B -> X
  */
 template<uint8_t m, uint8_t n>
 void divl_ut(const MatrixExp<m, m>& U, Matrix<m, n>& B)
 {
-	// For each row
+	// For each row of B
 	for (uint8_t ir = 0; ir < m; ir++)
 	{
 		// Diagonal inverse
 		const uint8_t i = m - 1 - ir;
 		const float Uii_inv = 1.0f / U.get(i, i);
 
-		// For each column
+		// For each col of B
 		for (uint8_t j = 0; j < n; j++)
 		{
 			for (uint8_t k = i + 1; k < m; k++)
@@ -59,6 +74,21 @@ void divl_ut(const MatrixExp<m, m>& U, Matrix<m, n>& B)
 			B(i, j) *= Uii_inv;
 		}
 	}
+}
+
+/**
+ * @brief In-place upper-triangular X*U = B
+ * @param U Upper-triangular matrix
+ * @param B Solution matrix B -> X
+ * 
+ * TODO optimize to prevent copies
+ */
+template<uint8_t m, uint8_t n>
+void divr_ut(const MatrixExp<n, n>& U, Matrix<m, n>& B)
+{
+	Matrix<n, m> trn_B = trn(B);
+	divl_lt(trn(U), trn_B);
+	B = trn(trn_B);
 }
 
 /**
@@ -83,7 +113,8 @@ void divl_chol(const MatrixExp<m, m>& A, Matrix<m, n>& B)
 template<uint8_t m, uint8_t n>
 Matrix<m, n> divr_chol(const MatrixExp<n, n>& A, const MatrixExp<m, n>& B)
 {
-	Matrix<n, m> trn_X = trn(B);
-	divl_chol(A, trn_X);	// X' = A \ B'
-	return trn(trn_X);
+	Matrix<n, n> L = A;
+	chol(L);			// A = L * L'
+	divr_ut(trn(L), B);	// Solve Y * L' = B
+	divr_lt(L, B);		// Solve X * L = Y
 }
