@@ -44,9 +44,23 @@ void divl_lt(const MatrixExp<m, m>& L, Matrix<m, n>& B)
 template<uint8_t m, uint8_t n>
 void divr_lt(const MatrixExp<n, n>& L, Matrix<m, n>& B)
 {
-	Matrix<n, m> trn_B = trn(B);
-	divl_ut(trn(L), trn_B);
-	B = trn(trn_B);
+	// For each col of B
+	for (uint8_t jr = 0; jr < n; jr++)
+	{
+		// Diagonal inverse
+		const uint8_t j = n - 1 - jr;
+		const float Ljj_inv = 1.0f / L.get(j, j);
+
+		// For each row of B
+		for (uint8_t i = 0; i < m; i++)
+		{
+			for (uint8_t k = j + 1; k < n; k++)
+			{
+				B(i, j) -= L.get(k, j) * B(i, k);
+			}
+			B(i, j) *= Ljj_inv;
+		}
+	}
 }
 
 /**
@@ -86,9 +100,22 @@ void divl_ut(const MatrixExp<m, m>& U, Matrix<m, n>& B)
 template<uint8_t m, uint8_t n>
 void divr_ut(const MatrixExp<n, n>& U, Matrix<m, n>& B)
 {
-	Matrix<n, m> trn_B = trn(B);
-	divl_lt(trn(U), trn_B);
-	B = trn(trn_B);
+	// For each col of B
+	for (uint8_t j = 0; j < n; j++)
+	{
+		// Diagonal inverse
+		const float Ujj_inv = 1.0f / U.get(j, j);
+
+		// For each row of B
+		for (uint8_t i = 0; i < m; i++)
+		{
+			for (uint8_t k = 0; k < j; k++)
+			{
+				B(i, j) -= U.get(k, j) * B(i, k);
+			}
+			B(i, j) *= Ujj_inv;
+		}
+	}
 }
 
 /**
