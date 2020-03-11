@@ -30,4 +30,6 @@
 
 // Algorithm includes
 #include "chol.h"
-#include "div.h"
+#include "div_lt.h"
+#include "div_ut.h"
+#include "div_spd.h"
