@@ -15,16 +15,13 @@ class Matrix : public MatrixExp<m, n>
 public:
 
 	/**
-	 * @brief Constructs matrix with zero elements
+	 * @brief Constructs matrix of zeros
 	 */
 	Matrix()
 	{
-		for (uint8_t i = 0; i < m; i++)
+		for (uint8_t k = 0; k < m*n; k++)
 		{
-			for (uint8_t j = 0; j < n; j++)
-			{
-				data[i][j] = 0.0f;
-			}
+			(*this)(k) = 0.0f;
 		}
 	}
 
@@ -41,17 +38,26 @@ public:
 	 */
 	Matrix(float scalar) : Matrix<1, 1>()
 	{
-		(*this)(0, 0) = scalar;
+		(*this)(0) = scalar;
 	}
 
 	/**
-	 * @brief Reference to element
+	 * @brief Subscripted element reference
 	 * @param i Row index [0...m-1]
 	 * @param j Col index [0...n-1]
 	 */
 	float& operator()(uint8_t i, uint8_t j)
 	{
-		return data[i][j];
+		return data[i + m * j];
+	}
+
+	/**
+	 * @brief Indexed element reference
+	 * @param k Index (colum-major) [0...m*n-1]
+	 */
+	float& operator()(uint8_t k)
+	{
+		return data[k];
 	}
 
 	/**
@@ -66,11 +72,11 @@ public:
 			{
 				for (uint8_t j = 0; j < n; j++)
 				{
-					data[i][j] = rhs.get(i, j);
+					(*this)(i, j) = rhs.get(i, j);
 				}
 			}
 		}
-		return *this;
+		return (*this);
 	}
 
 	/**
@@ -80,7 +86,7 @@ public:
 	 */
 	float get(uint8_t i, uint8_t j) const override
 	{
-		return data[i][j];
+		return data[i + m * j];
 	}
 
 	/**
@@ -94,5 +100,5 @@ public:
 protected:
 
 	// Matrix Elements
-	float data[m][n];
+	float data[m * n];
 };
