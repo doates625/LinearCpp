@@ -4,7 +4,8 @@
  * @author Dan Oates (WPI Class of 2020)
  */
 #pragma once
-#include "LinearCpp.h"
+#include <stdint.h>
+#include <math.h>
 
 /**
  * Class Definition

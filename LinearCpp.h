@@ -21,14 +21,11 @@
 #include "MatrixEye.h"
 #include "MatrixHcat.h"
 #include "MatrixVcat.h"
-
-// Vector Includes
-#include "VectorExp.h"
 #include "Vector.h"
-#include "VectorMul.h"
-#include "VectorCrs.h"
 
 // Algorithm includes
+#include "dot.h"
+#include "crs.h"
 #include "chol.h"
 #include "div_lt.h"
 #include "div_ut.h"
