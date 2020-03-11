@@ -21,6 +21,14 @@ public:
 	Vector() {}
 
 	/**
+	 * @brief Matrix expression constructor
+	 */
+	Vector(const MatrixExp<n, 1>& mat)
+	{
+		(*this) = mat;
+	}
+
+	/**
 	 * @brief Expression assignment operator
 	 * @return Self-reference
 	 */
