@@ -9,12 +9,12 @@
 #include "chol.h"
 
 /**
- * @brief In-place lower-triangular L*X = B
+ * @brief Solve L*X = B in-place
  * @param L Lower-triangular matrix
  * @param B Solution matrix B -> X
  */
 template<uint8_t m, uint8_t n>
-void divl_lt(const MatrixExp<m, m>& L, Matrix<m, n>& B)
+void ldiv_lt(const MatrixExp<m, m>& L, Matrix<m, n>& B)
 {
 	// For each row of B
 	for (uint8_t i = 0; i < m; i++)
@@ -35,14 +35,12 @@ void divl_lt(const MatrixExp<m, m>& L, Matrix<m, n>& B)
 }
 
 /**
- * @brief In-place lower-triangular X*L = B
- * @param L Lower-triangular matrix
+ * @brief Solve X*L = B in-place
  * @param B Solution matrix B -> X
- * 
- * TODO optimize to prevent copies
+ * @param L Lower-triangular matrix
  */
 template<uint8_t m, uint8_t n>
-void divr_lt(const MatrixExp<n, n>& L, Matrix<m, n>& B)
+void rdiv_lt(Matrix<m, n>& B, const MatrixExp<n, n>& L)
 {
 	// For each col of B
 	for (uint8_t jr = 0; jr < n; jr++)
@@ -64,12 +62,12 @@ void divr_lt(const MatrixExp<n, n>& L, Matrix<m, n>& B)
 }
 
 /**
- * @brief In-place upper-triangular U*X = B
+ * @brief Solve U*X = B in-place
  * @param U Upper-triangular matrix
  * @param B Solution matrix B -> X
  */
 template<uint8_t m, uint8_t n>
-void divl_ut(const MatrixExp<m, m>& U, Matrix<m, n>& B)
+void ldiv_ut(const MatrixExp<m, m>& U, Matrix<m, n>& B)
 {
 	// For each row of B
 	for (uint8_t ir = 0; ir < m; ir++)
@@ -91,14 +89,12 @@ void divl_ut(const MatrixExp<m, m>& U, Matrix<m, n>& B)
 }
 
 /**
- * @brief In-place upper-triangular X*U = B
- * @param U Upper-triangular matrix
+ * @brief Solve X*U = B in-place
  * @param B Solution matrix B -> X
- * 
- * TODO optimize to prevent copies
+ * @param U Upper-triangular matrix
  */
 template<uint8_t m, uint8_t n>
-void divr_ut(const MatrixExp<n, n>& U, Matrix<m, n>& B)
+void rdiv_ut(Matrix<m, n>& B, const MatrixExp<n, n>& U)
 {
 	// For each col of B
 	for (uint8_t j = 0; j < n; j++)
@@ -119,29 +115,27 @@ void divr_ut(const MatrixExp<n, n>& U, Matrix<m, n>& B)
 }
 
 /**
- * @brief In-place A*X = B with Cholesky 
- * @param A Symmetric PD matrix
+ * @brief Solve S*X = B in-place
+ * @param S Symmetric positive definite matrix S -> L
  * @param B Solution matrix B -> X
  */
 template<uint8_t m, uint8_t n>
-void divl_chol(const MatrixExp<m, m>& A, Matrix<m, n>& B)
+void ldiv_spd(Matrix<m, m>& S, Matrix<m, n>& B)
 {
-	Matrix<m, m> L = A;
-	chol(L);			// A = L * L'
-    divl_lt(L, B);		// Solve L * Y = B
-	divl_ut(trn(L), B);	// Solve L' * X = Y
+	chol(S);			// S = L * L'
+    ldiv_lt(S, B);		// Solve L * Y = B
+	ldiv_ut(trn(S), B);	// Solve L' * X = Y
 }
 
 /**
- * @brief Solve X*A = B with Cholesky decomposition
- * @param A Symmetric PD matrix
- * @param B Target matrix
+ * @brief Solve S*A = B in-place
+ * @param S Symmetric positive definite matrix S -> L
+ * @param B Solution matrix B -> X
  */
 template<uint8_t m, uint8_t n>
-Matrix<m, n> divr_chol(const MatrixExp<n, n>& A, const MatrixExp<m, n>& B)
+void rdiv_spd(Matrix<m, n>& B, Matrix<n, n>& S)
 {
-	Matrix<n, n> L = A;
-	chol(L);			// A = L * L'
-	divr_ut(trn(L), B);	// Solve Y * L' = B
-	divr_lt(L, B);		// Solve X * L = Y
+	chol(S);			// A = L * L'
+	rdiv_ut(B, trn(S));	// Solve Y * L' = B
+	rdiv_lt(B, S);		// Solve X * L = Y
 }

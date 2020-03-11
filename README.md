@@ -51,8 +51,21 @@ operator float(Matrix<1, 1>)	// Cast matrix to scalar
 Matrix<1, 1>(float)		// Cast scalar to matrix
 Vector<1>(float)		// Cast scalar to vector
 
+// In-Place Solvers and Decomposers
+// L = Lower-triangular
+// U = Upper-triangular
+// S = Symmetric positive-definite
+
 // Matrix Decompositions
 chol(Matrix<n, n>)	// Cholesky decomposition
+
+// System Solvers
+ldiv_lt(L<m,m>, B<m,n>)		// Solve LX = B
+rdiv_lt(B<m,n>, L<n,n>)		// Solve XL = B
+ldiv_ut(U<m,m>, B<m,n>)		// Solve UX = B
+rdiv_ut(B<m,n>, U<n,n>)		// Solve XU = B
+ldiv_spd(S<m,m>, B<m,n>)	// Solve SX = B
+rdiv_spd(B<m,n>, S<n,n>)	// Solve XS = B
 ```
 
 #### Circular Self-Assignment
